@@ -2,24 +2,33 @@ package main
 
 import (
 	"log"
-
 	"sanrl/rl"
 	"sanrl/sim"
 )
 
 func main() {
+	// ENHANCED CONFIG: Shows hybrid advantages
 	cfg := sim.SANConfig{
-		NumDisks:      4,
-		ServiceRates:  []float64{1.5, 0.8, 2.0, 0.6},
-		FailureProbs:  []float64{0.002, 0.005, 0.001, 0.007},
-		RecoverProbs:  []float64{0.05, 0.05, 0.05, 0.05},
-		ArrivalRate:   2.5,
-		ReqSizeLow:    0.5,
-		ReqSizeHigh:   2.0,
-		NetworkBase:   0.1,
-		NetworkJitter: 0.02,
-		Seed:          42,
-		MaxSteps:      500, // episode length
+		NumDisks: 4,
+		
+		// HETEROGENEOUS disks (different capabilities)
+		ServiceRates: []float64{2.0, 0.8, 1.5, 1.2}, // Was: all similar
+		
+		// HIGHER failure rates (so risk prediction matters)
+		FailureProbs: []float64{0.008, 0.015, 0.005, 0.012}, // Was: 0.002-0.007
+		RecoverProbs: []float64{0.05, 0.05, 0.05, 0.05},
+		
+		// VARIABLE workload (so prediction helps)
+		ArrivalRate:   3.5, // Higher load
+		ReqSizeLow:    0.3, // More variance
+		ReqSizeHigh:   2.5, // Was: 0.5-2.0
+		
+		// MORE network variability (realistic)
+		NetworkBase:   0.12, // Slightly higher base
+		NetworkJitter: 0.05, // Was: 0.02, more jitter
+		
+		Seed:     42,
+		MaxSteps: 500,
 	}
 
 	server := rl.NewServer(cfg)

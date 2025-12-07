@@ -1,3 +1,7 @@
+# python/requirements.txt - ADD these if missing:
 gymnasium
 stable-baselines3
 numpy
+torch
+matplotlib
+seaborn
